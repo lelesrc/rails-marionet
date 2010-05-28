@@ -20,9 +20,9 @@ EOF
     doc = Document.new xml
     out = Marionet::PageTransformer.transform(doc,@session,:test)
     self.assert_equal(out,"<?xml version=\"1.0\"?>\nThis is a test file\n")
+    self.assert_nil(Marionet::PageTransformer.instance.transformer_impl(:test).xml)
   end
 
-=begin
   def test_transform_string_link
     html = <<EOF
     <html>
@@ -32,9 +32,11 @@ EOF
     </html>
 EOF
     doc = Document.new html
-    p doc
+    #p doc
     out = Marionet::PageTransformer.transform(doc,@session)
     p out
+    
+    #p Marionet::PageTransformer.instance.transformer_impl(:body).xml.to_s
   end
-=end
+
 end  
