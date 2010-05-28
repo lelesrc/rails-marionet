@@ -1,6 +1,5 @@
 class Marionet::Portlet
   require 'yaml'
-  require 'slot'
   require 'logger'
   
   attr_accessor :slots
