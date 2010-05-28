@@ -1,4 +1,4 @@
-class Slot
+class Marionet::Slot
   require 'open-uri'
   require 'hpricot'
   attr_accessor :url, :html, :name, :header, :body
