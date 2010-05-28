@@ -166,8 +166,8 @@ class HttpclientTest < Test::Unit::TestCase
 
       n = doc.xpath('//'+ key)
 
-      assert (n)
-      assert (n.size > 0, "COOKIE #{key} NOT FOUND")
+      assert(n)
+      assert(n.size > 0, "COOKIE #{key} NOT FOUND")
       assert_equal(value,n[0].content, "COOKIE #{key} HAS DIFFERENT VALUE")
     end
   end
