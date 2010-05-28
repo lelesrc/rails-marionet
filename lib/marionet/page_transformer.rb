@@ -20,11 +20,14 @@ class Marionet::PageTransformer
   end
 
   # link
-  XML::XSLT.registerExtFunc(@@namespace, 'link') do |node,session|
+  XML::XSLT.registerExtFunc(@@namespace, 'link') do |nodes,session|
     logger.debug('link transformation')
-    logger.debug(node)
     logger.debug(session)
-    'link comes here'
+    nodes.each do |node|
+      logger.debug(node)
+      node.text = 'xxxx'
+    end
+    nodes
   end
   
   # image
@@ -54,13 +57,13 @@ class Marionet::PageTransformer
     def transform(doc,session,stylesheet=:body)
       #logger.debug self.instance.transformer
       # create copy of the transformer attribute from instance. 
-      # XXX: stupid enough to remember it would be useful to return a Proc here
       transformer = self.instance.transformer_impl(stylesheet)
       #logger.debug transformer
       transformer.xml = doc
-      # XXX: set session parameters
-      # transform
-      transformer.parameters = { 'namespace' => session.get('namespace') }
+      # Transform.
+      # The transformation, possibly due to a bug, mutes the session,
+      # so a duplicate has be created.
+      transformer.parameters = { 'namespace' => session.get('namespace').dup }
       transformer.serve()
     end
 

@@ -7,10 +7,10 @@ class Marionet::Session
 
   def initialize()
     @creation_time = Time.now
-    @name = 'xxxxxx' # XXX: randomize
+    @name = "xxxxxx" # XXX: randomize
       
     @_element = Element.new('portlet-session')
-    self.set('namespace','_portlet_%s' % @name)
+    self.set('namespace',"_portlet_#{@name}")
   end
   
   def get(attr)

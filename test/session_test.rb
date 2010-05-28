@@ -9,6 +9,7 @@ class SessionTest < Test::Unit::TestCase
     session = Marionet::Session.new
     self.assert(session.name)
     self.assert(session.to_xml)
+    self.assert_equal("_portlet_xxxxxx", session.get('namespace'))
   end
 
 end  

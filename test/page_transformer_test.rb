@@ -8,8 +8,11 @@ class PageTransformerTest < Test::Unit::TestCase
   
   def setup
     @xslt = XML::XSLT.new( )
-    @namespace = "__TEST_PORTLET__"
     @session = Marionet::Session.new
+  end
+  
+  def teardown
+    @session = nil
   end
 
   def test_xslt
@@ -33,10 +36,13 @@ EOF
 EOF
     doc = Document.new html
     #p doc
+    session = @session.dup
     out = Marionet::PageTransformer.transform(doc,@session)
-    p out
-    
-    #p Marionet::PageTransformer.instance.transformer_impl(:body).xml.to_s
+    #p out
+    #self.assert(@session.equal?(session))
+    outdoc = Document.new out
+    portlet_element = XPath.first(outdoc, "//div")
+    self.assert_equal(portlet_element.attributes['id'], @session.get('namespace'))
   end
 
 end  
