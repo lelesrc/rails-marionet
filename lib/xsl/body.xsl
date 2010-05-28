@@ -3,9 +3,10 @@
      xmlns:marionet="http://github.com/youleaf/django-marionet"
      >
 
+<!--
     <xsl:namespace-alias stylesheet-prefix="xmlns:marionet" 
           result-prefix=""/>
-
+-->
     <xsl:output method="html" omit-xml-declaration="yes"/>
 
     <xsl:param name="session" />
