@@ -9,6 +9,12 @@
 -->
     <xsl:output method="html" omit-xml-declaration="yes"/>
 
+    <xsl:variable
+        name="session"
+        select="//*[local-name()='portlet-session']" />
+    <xsl:variable
+        name="namespace"
+        select="//*[local-name()='portlet-session']/@namespace" />
 
     <!-- Fetch some info from head, and all of body -->
     <xsl:template match="*[local-name()='html']">
@@ -29,7 +35,7 @@
 
     <!-- Rewrite links -->
     <xsl:template match="*[local-name()='a']">
-        <xsl:copy-of select="marionet:link(.,marionet:session)"/>
+        <xsl:copy-of select="marionet:link(.,$session)"/>
     </xsl:template>
 
     <!-- Copy through everything that hasn't been modified by the processor -->

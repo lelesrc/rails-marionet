@@ -22,7 +22,7 @@ class PageTransformerTest < Test::Unit::TestCase
 EOF
     doc = Document.new xml
     out = Marionet::PageTransformer.transform(doc,@session,:test)
-    self.assert_equal(out,"<?xml version=\"1.0\"?>\nThis is a test file\n")
+    self.assert_equal("<?xml version=\"1.0\"?>\nThis is a test file\n", out)
     self.assert_nil(Marionet::PageTransformer.instance.transformer_impl(:test).xml)
   end
 
@@ -42,7 +42,9 @@ EOF
     #self.assert(@session.equal?(session))
     outdoc = Document.new out
     portlet_element = XPath.first(outdoc, "//div")
-    self.assert_equal(portlet_element.attributes['id'], @session.get('namespace'))
+    self.assert_equal(@session.get('namespace'), portlet_element.attributes['id'])
+    link = XPath.first(outdoc, "//a")
+    self.assert_equal("http://new-url", link.attributes['href'])
   end
 
 end  

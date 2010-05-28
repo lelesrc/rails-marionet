@@ -25,7 +25,19 @@ class Marionet::PageTransformer
     logger.debug(session)
     nodes.each do |node|
       logger.debug(node)
-      node.text = 'xxxx'
+      href = node.attributes['href']
+      unless href
+        next
+      end
+      
+      if session[0].attributes['base']
+        # XXX: rewrite base
+      end
+      
+      #url = Portlet::Url.render_url()
+      url = 'http://new-url'
+      
+      node.attributes['href'] = url
     end
     nodes
   end
@@ -49,8 +61,6 @@ class Marionet::PageTransformer
 
   class << self
 
-    #XML::XSLT.registerExtFunc(@@namespace, "link") do link end
-
     # Perform XSL transformation on the html (REXML::Document) or (String),
     # with the marionet portlet session (Marionet::Session).
     # Session is a REXML::Element 'portlet-session'.
@@ -59,11 +69,17 @@ class Marionet::PageTransformer
       # create copy of the transformer attribute from instance. 
       transformer = self.instance.transformer_impl(stylesheet)
       #logger.debug transformer
+
+      # append session to the document
+      head = XPath.first(doc,'//html')
+      if head
+        head << session.element
+      end
+
+      # prepare transformer with document
       transformer.xml = doc
-      # Transform.
-      # The transformation, possibly due to a bug, mutes the session,
-      # so a duplicate has be created.
-      transformer.parameters = { 'namespace' => session.get('namespace').dup }
+
+      # transform
       transformer.serve()
     end
 
