@@ -9,26 +9,39 @@ class Marionet::PageTransformer
   attr_reader :stylesheets
   
   def initialize()
-    @stylesheets = {}
-    @stylesheets.update( { :body => Document.new( File.new( File.join(
-      File.dirname(__FILE__),'..','xsl','body.xsl'))) } ) 
-    @stylesheets.update( { :test => Document.new( File.new( File.join(
-      File.dirname(__FILE__),'..','xsl','test.xsl'))) } )
+    body = Document.new( File.new( File.join(
+      File.dirname(__FILE__),'..','xsl','body.xsl')))
+    test = Document.new( File.new( File.join(
+      File.dirname(__FILE__),'..','xsl','test.xsl')))
+    @stylesheets = { 
+      :body => body,
+      :test => test
+    }
+  end
 
-=begin
-        ns = etree.FunctionNamespace('http://github.com/youleaf/django-marionet')
-        ns.prefix = "marionet"
-        ns['link'] = PageProcessor.link
-        ns['image'] = PageProcessor.image
-        ns['href'] = PageProcessor.href
-        ns['form'] = PageProcessor.form
-=end
+  # link
+  XML::XSLT.registerExtFunc(@@namespace, 'link') do |node,session|
+    logger.debug('link transformation')
+    logger.debug(node)
+    logger.debug(session)
+    'link comes here'
   end
   
+  # image
+  
+  # href
+  
+  # form
+
+  # Create a new transformer instance, from the static list of cached stylesheets.
   def transformer_impl(stylesheet)
     impl = XML::XSLT.new()
     impl.xsl = @stylesheets[ stylesheet ]
     return impl
+  end
+  
+  def logger
+    Marionet.logger
   end
 
   class << self
@@ -51,12 +64,6 @@ class Marionet::PageTransformer
       transformer.serve()
     end
 
-
-    def link()
-      logger.debug('link transformation')
-      'link comes here'
-    end
-    
     def logger
       Marionet.logger
     end
