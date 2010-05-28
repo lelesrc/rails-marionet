@@ -8,4 +8,5 @@ this_dir = File.dirname(File.expand_path(this_file))
 require File.join(this_dir, 'httpclient')
 require File.join(this_dir, 'marionet', 'slot')
 require File.join(this_dir, 'marionet', 'portlet')
+require File.join(this_dir, 'marionet', 'session')
 
